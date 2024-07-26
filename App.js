@@ -1,10 +1,37 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import axios from 'axios';
 
 export default function App() {
+  const [vehicles, setVehicles] = useState([]);
+
+  useEffect(() => {
+    const fetchVehicles = async () => {
+      try {
+        // Substitua 'URL_DA_API_OLHO_VIVO' pela URL correta da API Olho Vivo
+        const response = await axios.get('https://aiko-olhovivo-proxy.aikodigital.io/posicoes');
+        setVehicles(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar dados dos veículos:', error);
+      }
+    };
+
+    fetchVehicles();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <MapView style={styles.map}>
+        {vehicles.map(vehicle => (
+          <Marker
+            key={vehicle.id}
+            coordinate={{ latitude: vehicle.latitude, longitude: vehicle.longitude }}
+            title={`Veículo ${vehicle.id}`}
+          />
+        ))}
+      </MapView>
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +40,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
 });
