@@ -29,8 +29,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator initialRouteName="Acessa">
-        <Tab.Screen name="Acessar" component={HomeScreen} />
+      <Tab.Navigator initialRouteName="Home">
+        <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="VehiclePositions" component={VehiclePositionsScreen} />
         <Tab.Screen name="Lines" component={LinesScreen} />
         <Tab.Screen name="Stops" component={StopsScreen} />
