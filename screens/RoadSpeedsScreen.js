@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { getRoadSpeeds } from '../services/OlhoVivoAPI'; // Exemplo de função para obter velocidades das vias
-
+import { getRoadSpeeds } from '../services/OlhoVivoAPI'; 
 export default function RoadSpeedsScreen() {
   const [roadSpeeds, setRoadSpeeds] = useState([]);
 

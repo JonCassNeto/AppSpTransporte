@@ -1,4 +1,3 @@
-// LinesScreen.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { getLines } from '../services/OlhoVivoAPI';

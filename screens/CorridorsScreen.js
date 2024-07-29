@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { getCorridors } from '../services/OlhoVivoAPI'; // Exemplo de função para obter corredores
+import { getCorridors } from '../services/OlhoVivoAPI'; 
 
 export default function CorridorsScreen() {
   const [corridors, setCorridors] = useState([]);

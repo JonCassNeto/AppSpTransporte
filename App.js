@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import VehiclePositionsScreen from './screens/VehiclePositionsScreen';
 import LinesScreen from './screens/LinesScreen';
@@ -8,11 +8,9 @@ import StopsScreen from './screens/StopsScreen';
 import ArrivalPredictionsScreen from './screens/ArrivalPredictionsScreen';
 import CorridorsScreen from './screens/CorridorsScreen';
 import RoadSpeedsScreen from './screens/RoadSpeedsScreen';
-import LoginScreen from './screens/LoginScreen';
-import InfoScreen from './screens/InfoScreen';
 import { authenticate } from './services/OlhoVivoAPI';
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   useEffect(() => {
@@ -31,17 +29,15 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login"> {/* Correção aqui */}
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="VehiclePositions" component={VehiclePositionsScreen} />
-        <Stack.Screen name="Lines" component={LinesScreen} />
-        <Stack.Screen name="Stops" component={StopsScreen} />
-        <Stack.Screen name="ArrivalPredictions" component={ArrivalPredictionsScreen} />
-        <Stack.Screen name="Corridors" component={CorridorsScreen} />
-        <Stack.Screen name="RoadSpeeds" component={RoadSpeedsScreen} />
-        <Stack.Screen name="Info" component={InfoScreen} options={{ title: 'Informações' }} />
-      </Stack.Navigator>
+      <Tab.Navigator initialRouteName="Acessa">
+        <Tab.Screen name="Acessar" component={HomeScreen} />
+        <Tab.Screen name="VehiclePositions" component={VehiclePositionsScreen} />
+        <Tab.Screen name="Lines" component={LinesScreen} />
+        <Tab.Screen name="Stops" component={StopsScreen} />
+        <Tab.Screen name="ArrivalPredictions" component={ArrivalPredictionsScreen} />
+        <Tab.Screen name="Corridors" component={CorridorsScreen} />
+        <Tab.Screen name="RoadSpeeds" component={RoadSpeedsScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }

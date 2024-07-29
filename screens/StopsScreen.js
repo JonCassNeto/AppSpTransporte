@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
-import { getStops } from '../services/OlhoVivoAPI'; // Certifique-se de que o nome do arquivo esteja correto
+import { getStops } from '../services/OlhoVivoAPI'; 
 
 export default function StopsScreen() {
   const [stops, setStops] = useState([]);

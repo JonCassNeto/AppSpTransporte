@@ -1,24 +1,29 @@
 import React from 'react';
-import { TextInput, StyleSheet } from 'react-native';
+import { View, TextInput, StyleSheet } from 'react-native';
 
-const SearchBar = ({ value, onChange }) => {
+const SearchBar = ({ value, onChangeText, placeholder }) => {
   return (
-    <TextInput
-      style={styles.input}
-      placeholder="Pesquisar..."
-      value={value}
-      onChangeText={onChange}
-    />
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    margin: 10,
+  },
   input: {
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 10,
     paddingHorizontal: 10,
+    borderRadius: 5,
   },
 });
 

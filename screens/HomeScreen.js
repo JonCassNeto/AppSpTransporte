@@ -1,17 +1,16 @@
-// screens/HomeScreen.js
 import React from 'react';
-import { View, Button, StyleSheet, ImageBackground } from 'react-native'; // Remova a importação duplicada de Button
+import { View, Button, StyleSheet, ImageBackground } from 'react-native';
 
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../assets/aiko.png')} // Substitua pelo caminho correto da imagem
+        source={require('../assets/aiko.png')}
         style={styles.backgroundImage}
       >
         <Button
-          title="Acesso"
-          onPress={() => navigation.navigate('LoginScreen')}
+          title="Acessar"
+          onPress={() => navigation.navigate('VehiclePositions')} 
           style={styles.button}
         />
       </ImageBackground>
