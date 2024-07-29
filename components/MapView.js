@@ -1,31 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { getBusPositions } from '../services/OlhoVivoAPI';
+import { StyleSheet } from 'react-native';
 
-const BusMap = () => {
-    const [busPositions, setBusPositions] = useState([]);
-
-    useEffect(() => {
-        const fetchBusPositions = async () => {
-            const positions = await getBusPositions();
-            setBusPositions(positions);
-        };
-
-        fetchBusPositions();
-    }, []);
-
-    return (
-        <MapView style={{ flex: 1 }}>
-            {busPositions.map((bus) => (
-                <Marker
-                    key={bus.VehicleId}
-                    coordinate={{ latitude: bus.Latitude, longitude: bus.Longitude }}
-                    title={`Bus ${bus.VehicleId}`}
-                    description={`Line ${bus.LineCode}`}
-                />
-            ))}
-        </MapView>
-    );
+const MapViewComponent = ({ markers }) => {
+  return (
+    <MapView style={styles.map}>
+      {markers.map((marker) => (
+        <Marker
+          key={marker.id}
+          coordinate={{
+            latitude: marker.latitude,
+            longitude: marker.longitude,
+          }}
+          title={marker.title}
+          description={marker.description}
+        />
+      ))}
+    </MapView>
+  );
 };
 
-export default BusMap;
+const styles = StyleSheet.create({
+  map: {
+    flex: 1,
+  },
+});
+
+export default MapViewComponent;
+

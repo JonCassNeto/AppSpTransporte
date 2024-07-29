@@ -1,32 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { getBusStops } from '../services/OlhoVivoAPI';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-const BusStops = () => {
-    const [busStops, setBusStops] = useState([]);
-
-    useEffect(() => {
-        const fetchBusStops = async () => {
-            const stops = await getBusStops();
-            setBusStops(stops);
-        };
-
-        fetchBusStops();
-    }, []);
-
-    return (
-        <View>
-            <FlatList
-                data={busStops}
-                keyExtractor={(item) => item.StopId.toString()}
-                renderItem={({ item }) => (
-                    <View>
-                        <Text>{item.StopName}</Text>
-                    </View>
-                )}
-            />
-        </View>
-    );
+const StopItem = ({ stop }) => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{`Parada ${stop.id}`}</Text>
+      <Text>{stop.name}</Text>
+    </View>
+  );
 };
 
-export default BusStops;
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
+
+export default StopItem;

@@ -1,32 +1,64 @@
+// OlhoVivoApi.js
 import axios from 'axios';
-
-const API_BASE_URL = 'http://api.olhovivo.sptrans.com.br/v2.1';
-const API_KEY = 'SUA_API_KEY';
+import { API_KEY, API_BASE_URL } from './Config';
 
 const api = axios.create({
-    baseURL: API_BASE_URL,
-    headers: { 'Content-Type': 'application/json' }
+  baseURL: API_BASE_URL,
 });
 
-const login = async () => {
-    try {
-        const response = await api.post('/Login/Autenticar?token=' + API_KEY);
-        return response.data;
-    } catch (error) {
-        console.error('Login failed:', error);
-        return null;
-    }
+let isAuthenticated = false;
+
+export const authenticate = async () => {
+  try {
+    const response = await api.post(`/Login/Autenticar?token=${API_KEY}`);
+    isAuthenticated = response.data;
+    return isAuthenticated;
+  } catch (error) {
+    console.error("Erro ao autenticar:", error);
+    throw error;
+  }
 };
 
-const getBusPositions = async () => {
-    await login();
-    try {
-        const response = await api.get('/Posicao');
-        return response.data;
-    } catch (error) {
-        console.error('Failed to get bus positions:', error);
-        return [];
-    }
+const ensureAuthenticated = async () => {
+  if (!isAuthenticated) {
+    await authenticate();
+  }
 };
 
-export { getBusPositions };
+export const getVehiclePositions = async () => {
+  await ensureAuthenticated();
+  const response = await api.get('/Posicao');
+  return response.data;
+};
+
+export const getLines = async () => {
+  await ensureAuthenticated();
+  const response = await api.get('/Linha');
+  return response.data;
+};
+
+export const getStops = async () => {
+  await ensureAuthenticated();
+  const response = await api.get('/Parada');
+  return response.data;
+};
+
+export const getArrivalPredictions = async (stopId) => {
+  await ensureAuthenticated();
+  const response = await api.get(`/Previsao/Parada?codigoParada=${stopId}`);
+  return response.data;
+};
+
+export const getCorridors = async () => {
+  await ensureAuthenticated();
+  const response = await api.get('/Corredor');
+  return response.data;
+};
+
+export const getRoadSpeeds = async () => {
+  await ensureAuthenticated();
+  const response = await api.get('/Velocidade');
+  return response.data;
+};
+
+export default api;

@@ -1,28 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
-import { getArrivalPredictions } from '../services/OlhoVivoAPI';
+import React from 'react';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 
-const ArrivalPredictions = ({ stopId }) => {
-    const [predictions, setPredictions] = useState([]);
-
-    useEffect(() => {
-        const fetchPredictions = async () => {
-            const data = await getArrivalPredictions(stopId);
-            setPredictions(data);
-        };
-
-        fetchPredictions();
-    }, [stopId]);
-
-    return (
-        <View>
-            {predictions.map((prediction) => (
-                <View key={prediction.VehicleId}>
-                    <Text>{`Bus ${prediction.VehicleId} will arrive in ${prediction.ArrivalTime} minutes`}</Text>
-                </View>
-            ))}
-        </View>
-    );
+const ArrivalPredictionsComponent = ({ predictions }) => {
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={predictions}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.item}>
+            <Text>{`Veículo: ${item.vehicleId}`}</Text>
+            <Text>{`Linha: ${item.line}`}</Text>
+            <Text>{`Previsão: ${item.arrivalTime}`}</Text>
+          </View>
+        )}
+      />
+    </View>
+  );
 };
 
-export default ArrivalPredictions;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+  item: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+});
+
+export default ArrivalPredictionsComponent;

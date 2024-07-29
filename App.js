@@ -1,47 +1,47 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './screens/HomeScreen';
+import VehiclePositionsScreen from './screens/VehiclePositionsScreen';
+import LinesScreen from './screens/LinesScreen';
+import StopsScreen from './screens/StopsScreen';
+import ArrivalPredictionsScreen from './screens/ArrivalPredictionsScreen';
+import CorridorsScreen from './screens/CorridorsScreen';
+import RoadSpeedsScreen from './screens/RoadSpeedsScreen';
+import LoginScreen from './screens/LoginScreen';
+import InfoScreen from './screens/InfoScreen';
+import { authenticate } from './services/OlhoVivoAPI';
+
+const Stack = createStackNavigator();
 
 export default function App() {
-  const [vehicles, setVehicles] = useState([]);
-
   useEffect(() => {
-    const fetchVehicles = async () => {
+    // Autentica o aplicativo na inicialização
+    const initAuth = async () => {
       try {
-        // Substitua 'URL_DA_API_OLHO_VIVO' pela URL correta da API Olho Vivo
-        const response = await axios.get('https://aiko-olhovivo-proxy.aikodigital.io/posicoes');
-        setVehicles(response.data);
+        await authenticate();
+        console.log('Autenticação bem-sucedida');
       } catch (error) {
-        console.error('Erro ao buscar dados dos veículos:', error);
+        console.error('Erro na autenticação', error);
       }
     };
 
-    fetchVehicles();
+    initAuth();
   }, []);
 
   return (
-    <View style={styles.container}>
-      <MapView style={styles.map}>
-        {vehicles.map(vehicle => (
-          <Marker
-            key={vehicle.id}
-            coordinate={{ latitude: vehicle.latitude, longitude: vehicle.longitude }}
-            title={`Veículo ${vehicle.id}`}
-          />
-        ))}
-      </MapView>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login"> {/* Correção aqui */}
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="VehiclePositions" component={VehiclePositionsScreen} />
+        <Stack.Screen name="Lines" component={LinesScreen} />
+        <Stack.Screen name="Stops" component={StopsScreen} />
+        <Stack.Screen name="ArrivalPredictions" component={ArrivalPredictionsScreen} />
+        <Stack.Screen name="Corridors" component={CorridorsScreen} />
+        <Stack.Screen name="RoadSpeeds" component={RoadSpeedsScreen} />
+        <Stack.Screen name="Info" component={InfoScreen} options={{ title: 'Informações' }} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
-  },
-});

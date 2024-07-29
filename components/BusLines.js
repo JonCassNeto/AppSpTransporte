@@ -1,32 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { getBusLines } from '../services/OlhoVivoAPI';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-const BusLines = () => {
-    const [busLines, setBusLines] = useState([]);
-
-    useEffect(() => {
-        const fetchBusLines = async () => {
-            const lines = await getBusLines();
-            setBusLines(lines);
-        };
-
-        fetchBusLines();
-    }, []);
-
-    return (
-        <View>
-            <FlatList
-                data={busLines}
-                keyExtractor={(item) => item.LineCode.toString()}
-                renderItem={({ item }) => (
-                    <View>
-                        <Text>{item.LineName}</Text>
-                    </View>
-                )}
-            />
-        </View>
-    );
+const BusLineItem = ({ line }) => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{line.name}</Text>
+      <Text>{`Número da Linha: ${line.number}`}</Text>
+    </View>
+  );
 };
 
-export default BusLines;
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
+
+export default BusLineItem;
